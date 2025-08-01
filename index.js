@@ -217,75 +217,79 @@ function runAutoExpandIcons() {
 
 //how we do
 document.addEventListener("DOMContentLoaded", () => {
-  const allLis = document.querySelectorAll(".text_how-we");
-  const tlHows = gsap.timeline();
-  const heading = document.querySelector(".icon_how-we svg");
-  const staggerDelay = 0.5;
+     mm.add("(min-width: 769px)", () => {
+      const allLis = document.querySelectorAll(".text_how-we");
+      const tlHows = gsap.timeline();
+      const heading = document.querySelector(".icon_how-we svg");
+      const staggerDelay = 0.5;
 
-  allLis.forEach((li, index) => {
-    const color = li.dataset.color || "#FFFCF5";
-    const isFirst = index === 0;
-    const isLast = index === allLis.length - 1;
+      allLis.forEach((li, index) => {
+        const isFirst = index === 0;
+        const isLast = index === allLis.length - 1;
 
-    // Initial styles
-    gsap.set(li, {
-      //transformOrigin: "0 50%",
-      // color: "#140826"
-    });
+        if (!isFirst) {
+          gsap.set(li, {opacity: 0.2, x: -50 });
 
-    if (!isFirst) {
-      gsap.set(li, {
-        opacity: 0.2,
-        // color: "#FFFCF5",
-        x: isMobile ? -10 : -50,
+          const time = (index - 1) * staggerDelay;
+
+          // Animate in
+          tlHows.to(li, { opacity: 1, x: 0 }, time ); // simulate stagger
+        }
+
+        // Animate out (skip last one)
+        if (!isLast) {
+          tlHows.to(li, { opacity: 0.2, x: -100 }, index * 0.5);
+        }
       });
 
-      const time = (index - 1) * staggerDelay;
+      ScrollTrigger.create({
+        trigger: ".icon_how-we",
+        start: "center center",
+        endTrigger: ".text_how-we:last-of-type",
+        end: "center center",
+        pin: true,
+        markers: false,
+        animation: tlHows,
+        scrub: true,
+      });
+    });
 
-      // Animate in
-      tlHows.to(
-        li,
-        {
-          opacity: 1,
-          // color: color,
-          x: 0,
-        },
-        time
-      ); // simulate stagger
+    mm.add("(max-width: 768px)", () => {
+      const allLis = document.querySelectorAll(".text_how-we");
+      const tlHows = gsap.timeline();
+      const heading = document.querySelector(".icon_how-we svg");
+      const staggerDelay = 0.5;
 
-      tlHows.to(
-        heading,
-        {
-          // color: color
-        },
-        time
-      );
-    }
+      allLis.forEach((li, index) => {
+        const isFirst = index === 0;
+        const isLast = index === allLis.length - 1;
 
-    // Animate out (skip last one)
-    if (!isLast) {
-      tlHows.to(
-        li,
-        {
-          opacity: 0.2,
-          //  color: "#FFFCF5",
-          x: isMobile ? -10 : -100,
-        },
-        index * 0.5
-      );
-    }
-  });
+        if (!isFirst) {
+          gsap.set(li, { opacity: 0.2, x: -10});
 
-  ScrollTrigger.create({
-    trigger: ".icon_how-we",
-    start: "center center",
-    endTrigger: ".text_how-we:last-of-type",
-    end: "center center",
-    pin: isMobile ? false : true,
-    markers: false,
-    animation: tlHows,
-    scrub: true,
-  });
+          const time = (index - 1) * staggerDelay;
+
+          // Animate in
+          tlHows.to( li, { opacity: 1, x: 0}, time ); // simulate stagger
+        }
+
+        // Animate out (skip last one)
+        if (!isLast) { 
+          tlHows.to( li, { opacity: 0.2, x: -10}, index * 0.5 );
+        }
+      });
+
+      ScrollTrigger.create({
+        trigger: ".icon_how-we",
+        start: "center center",
+        endTrigger: ".text_how-we:last-of-type",
+        end: "center center",
+        pin: true,
+        markers: true,
+        animation: tlHows,
+        scrub: true,
+      });
+    });
 });
 
 //our result
