@@ -333,7 +333,7 @@ document.querySelectorAll(".our-result").forEach((caseEl) => {
 
       if (isActive && seeProjectLink) {
         const url = acc.dataset.url;
-        seeProjectLink.href = url;
+        seeProjectLink.href = "case/" + url;
       }
     });
   };
