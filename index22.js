@@ -478,7 +478,7 @@ document.querySelectorAll(".our-result").forEach((caseEl) => {
 
 const panels = gsap.utils.toArray(".what-we_panel");
 
-  mm.add("(min-width: 769px)", () => {
+  mm.add("(min-width: 991px)", () => {
   const master = gsap.timeline({
       scrollTrigger: {
         trigger: ".section_what-we",
